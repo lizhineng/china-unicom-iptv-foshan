@@ -46,6 +46,20 @@ if [[ -z "$mac_address" ]]; then
 fi
 
 ##
+## Check dependencies
+##
+
+if ! command -v jq &>/dev/null; then
+  echo "The jq package that handles HTTP JSON response is not installed."
+  exit 1
+fi
+
+if ! command -v openssl &>/dev/null; then
+  echo "The OpenSSL package that handles token computation is not installed."
+  exit 1
+fi
+
+##
 ## Execute the main script
 ##
 
