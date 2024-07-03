@@ -1,14 +1,53 @@
 #!/usr/bin/env bash
 
-user_id=""
-password=""
-device_id=""
+# Default values
 ip_address="127.0.0.1"
-mac_address=""
 udpxy_endpoint="http://127.0.0.1:4022"
 output_file="iptv.M3U8"
 curl_args=""
 endpoint="http://eds1.unicomgd.com:8082"
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -u | --user) user_id="$2"; shift 2;;
+    -p | --password) password="$2"; shift 2;;
+    -d | --device) device_id="$2"; shift 2;;
+    --ip) ip_address="$2"; shift 2;;
+    --mac) mac_address="$2"; shift 2;;
+    --udpxy) udpxy_endpoint="$2"; shift 2;;
+    -o | --output) output_file="$2"; shift 2;;
+    --curl) curl_args="$2"; shift 2;;
+    *) echo "Unknown option: $1"; exit 1;;
+  esac
+done
+
+##
+## Validate user input
+##
+
+if [[ -z "$user_id" ]]; then
+  echo "Requires an IPTV user ID with -u or --user"
+  exit 1
+fi
+
+if [[ -z "$password" ]]; then
+  echo "Requires an IPTV password with -p or --password"
+  exit 1
+fi
+
+if [[ -z "$device_id" ]]; then
+  echo "Requires a device ID with -d or --device"
+  exit 1
+fi
+
+if [[ -z "$mac_address" ]]; then
+  echo "Requires a device MAC address with --mac"
+  exit 1
+fi
+
+##
+## Execute the main script
+##
 
 echo "[-] Authenticate"
 
