@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-step () { echo "[-] $1"; }
+step () { echo -e "\033[32m[-]\033[0m $1"; }
 
-fatal () { echo "[!] $1"; exit 1; }
+fatal () { echo -e "\033[31m[!]\033[0m $1"; exit 1; }
 
 ensure_curl_is_installed () {
   if ! command -v curl &>/dev/null; then
