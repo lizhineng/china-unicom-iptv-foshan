@@ -42,6 +42,13 @@ jobs:
         with:
           targets: ${{ matrix.target }}
 
+      - name: Install libssl-dev
+        shell: bash
+        run: |
+          if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
+            sudo apt-get update && sudo apt-get install -y libssl-dev
+          fi
+
       - name: Build
         shell: bash
         run: |
