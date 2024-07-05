@@ -6,4 +6,3 @@ edition = "2021"
 [dependencies]
 hex = "0.4.3"
 openssl = "0.10.64"
-rand = "0.8.5"
