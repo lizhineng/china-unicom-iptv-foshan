@@ -20,4 +20,4 @@ deploy it on your local server or simply import the playlist into your player.
 - [x] Build playlist file .M3U8
 - [x] Resolve TV channel logos
 - [x] Build EPG file
-- [ ] Find the password for the authinfo payload
+- [x] Find the password for the authinfo payload
