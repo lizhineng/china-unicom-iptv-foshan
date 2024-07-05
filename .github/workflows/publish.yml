@@ -61,6 +61,7 @@ jobs:
           cp "target/${{ matrix.target }}/release/decryptor" "$staging/"
           tar -czf "$staging.tar.gz" "$staging"
           echo "ASSET=$staging.tar.gz" >> $GITHUB_ENV
+          ls -lh
 
       - name: Upload the binaries
         uses: svenstaro/upload-release-action@2.9.0
