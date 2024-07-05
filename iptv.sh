@@ -226,6 +226,54 @@ make_playlist () {
   exit 0
 }
 
+decrypt_authinfo () {
+  local authinfo="$1"
+
+  if [[ -z "$authinfo" ]]; then
+    fatal "Requires authinfo data from /EPG/oauth/v2/token"
+  fi
+
+  authinfo=$(echo -n "$authinfo" | xxd -r -p)
+
+  local loading=("Still working." "Still working.." "Still working...")
+
+  local key
+  for ((i=0; i<1000000; i++)); do
+    key=$(printf "%06d" "$i")
+
+    if (( i % 100 == 0 )); then
+      echo -ne "\r\033[K${loading[i % 3]} $((i / 1000000 * 100))%"
+    fi
+
+    local result=$(echo -n "$authinfo" | \
+      openssl enc -d -des-ede3 -K "$(echo -n "${key}000000000000000000" | xxd -p -c 0)" 2>/dev/null | \
+      tr -d '\0')
+
+    if echo -n "$result" | grep -q OTT; then
+      IFS='$' read -ra components <<< "$result"
+
+      echo -e "\n"
+      echo "========================================"
+      echo "Found key: $key"
+      echo "========================================"
+      echo "$result"
+      echo "========================================"
+      echo "      random:  ${components[0]}"
+      echo " encry token:  ${components[1]}"
+      echo "     user id:  ${components[2]}"
+      echo "   device id:  ${components[3]}"
+      echo "  ip address:  ${components[4]}"
+      echo " mac address:  ${components[5]}"
+      echo "    reserved:  ${components[6]}"
+      echo "         ott:  ${components[7]}"
+
+      exit 0
+    fi
+  done
+
+  fatal "Could not find a possible key."
+}
+
 ##
 ## Main
 ##
@@ -234,6 +282,7 @@ while [ $# -gt 0 ]; do
   case "$1" in
     make:playlist) shift 1; make_playlist "$@";;
     make:epg) shift 1; make_epg "$@";;
+    decrypt:authinfo) shift 1; decrypt_authinfo "$@";;
     *) echo "Unknown command: $1"; exit 1;;
   esac
 done
