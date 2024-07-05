@@ -59,7 +59,7 @@ jobs:
           mkdir -p "$staging"
 
           cp "target/${{ matrix.target }}/release/decryptor" "$staging/"
-          tar czf "$staging.tar.gz" "$staging"
+          tar -czf "$staging.tar.gz" "$staging"
           echo "ASSET=$staging.tar.gz" >> $GITHUB_ENV
 
       - name: Upload the binaries
