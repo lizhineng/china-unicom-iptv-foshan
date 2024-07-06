@@ -14,4 +14,4 @@ pre-build = [
 ]
 
 [package.metadata.cross.target.aarch64-unknown-linux-gnu]
-image = "ghcr.io/cross-rs/aarch64-unknown-linux-gnu:edge"
+dockerfile = "../docker/Dockerfile.aarch64-unknown-linux-gnu"
