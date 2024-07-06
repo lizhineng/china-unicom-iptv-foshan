@@ -73,7 +73,7 @@ jobs:
         shell: bash
         run: |
           staging="decryptor-${{ env.DECRYPTOR_VERSION }}-${{ matrix.target }}"
-          mkdir -p "$staging"
+          mkdir "$staging"
 
           cp "target/${{ matrix.target }}/release/decryptor" "$staging/"
           tar czf "$staging.tar.gz" "$staging"
