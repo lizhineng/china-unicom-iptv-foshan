@@ -15,5 +15,5 @@ pre-build = [
     "echo 'deb [arch=arm64] http://au.archive.ubuntu.com/pub/ubuntu/ports jammy-updates main restricted universe multiverse' >> /etc/apt/sources.list",
     "echo 'deb [arch=arm64] http://au.archive.ubuntu.com/pub/ubuntu/ports jammy-backports main restricted universe multiverse' >> /etc/apt/sources.list",
     "dpkg --add-architecture arm64",
-    "apt-get update && apt-get -y install libssl-dev:arm64"
+    "apt-get update && apt-get -y install pkg-config libssl-dev:arm64"
 ]
