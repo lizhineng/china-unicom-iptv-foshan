@@ -13,5 +13,5 @@ pre-build = [
     "apt-get update && apt-get -y install libssl-dev:$CROSS_DEB_ARCH"
 ]
 
-[package.metadata.cross.target.{{target}}]
+[package.metadata.cross.target."{{target}}"]
 image = "ghcr.io/cross-rs/{{target}}:edge"
