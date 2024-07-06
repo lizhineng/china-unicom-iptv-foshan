@@ -70,7 +70,8 @@ jobs:
           $CARGO build --release --locked --target ${{ matrix.target }}
 
       - name: Upload the binaries
+        working-directory: ./decryptor
         uses: actions/upload-artifact@v4
         with:
-          name: decryptor-${{ env.DECRYPTOR_VERSION }}-${{ matrix.target }}
-          path: decryptor/target/${{ matrix.target }}/release/decryptor
+          name: ${{ env.ASSET }}
+          path: target/${{ matrix.target }}/release/decryptor
