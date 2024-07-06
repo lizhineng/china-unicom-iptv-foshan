@@ -7,7 +7,7 @@ edition = "2021"
 hex = "0.4.3"
 openssl = "0.10.64"
 
-[workspace.metadata.cross.build]
+[package.metadata.cross.build]
 pre-build = [
     "dpkg --add-architecture $CROSS_DEB_ARCH",
     "apt-get update && apt-get -y install libssl-dev:$CROSS_DEB_ARCH openssl:$CROSS_DEB_ARCH"
