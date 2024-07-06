@@ -14,10 +14,19 @@ Please note that you will need to set up the udpxy service on your router to
 handle the multicast packets. After you have created the playlist file, you can
 deploy it on your local server or simply import the playlist into your player.
 
-## Roadmap
+## Usage
 
-- [x] Authenticate with IPTV server
-- [x] Build playlist file .M3U8
-- [x] Resolve TV channel logos
-- [x] Build EPG file
-- [x] Find the password for the authinfo payload
+```bash
+Usage: iptv.sh [COMMAND] [OPTIONS]
+
+Commands:
+  make:playlist     Make a playlist file
+  make:epg          Make an EPG file
+  decrypt:authinfo  Find a possible IPTV key
+
+Run 'iptv.sh COMMAND -h' for help on a specific command.
+```
+
+⚡️ Download the decryptor writtern in Rust for maximum performance to find
+a possible key for the `authinfo` in the [release](https://github.com/lizhineng/china-unicom-iptv-foshan/releases)
+page.
