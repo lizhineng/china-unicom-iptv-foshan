@@ -28,5 +28,5 @@ Run 'iptv.sh COMMAND -h' for help on a specific command.
 ```
 
 ⚡️ Download the decryptor writtern in Rust for maximum performance to find
-a possible key for the `authinfo` in the [release](https://github.com/lizhineng/china-unicom-iptv-foshan/releases)
+a possible key for the `authinfo` from the [release](https://github.com/lizhineng/china-unicom-iptv-foshan/releases)
 page.
