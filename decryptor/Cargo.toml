@@ -6,3 +6,14 @@ edition = "2021"
 [dependencies]
 hex = "0.4.3"
 openssl = "0.10.64"
+
+[package.metadata.cross.target.aarch64-unknown-linux-gnu]
+dockerfile = "../docker/Dockerfile.aarch64-unknown-linux-gnu"
+pre-build = [
+    "sed 's/^deb http/deb [arch=amd64] http/' -i '/etc/apt/sources.list'",
+    "echo 'deb [arch=arm64] http://au.archive.ubuntu.com/pub/ubuntu/ports jammy main restricted universe multiverse' >> /etc/apt/sources.list",
+    "echo 'deb [arch=arm64] http://au.archive.ubuntu.com/pub/ubuntu/ports jammy-updates main restricted universe multiverse' >> /etc/apt/sources.list",
+    "echo 'deb [arch=arm64] http://au.archive.ubuntu.com/pub/ubuntu/ports jammy-backports main restricted universe multiverse' >> /etc/apt/sources.list",
+    "dpkg --add-architecture $CROSS_DEB_ARCH",
+    "apt-get update && apt-get -y install build-essential pkg-config libssl-dev:$CROSS_DEB_ARCH"
+]
