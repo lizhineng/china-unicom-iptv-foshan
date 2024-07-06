@@ -2,7 +2,6 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
-    build-essential \
     g++-aarch64-linux-gnu \
     libc6-dev-arm64-cross
 
