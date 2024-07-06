@@ -1,5 +1,43 @@
 #!/usr/bin/env bash
 
+show_usage () {
+  echo "Usage: $0 [COMMAND] [OPTIONS]"
+  echo ""
+  echo "Commands:"
+  echo "  make:playlist     Make a playlist file"
+  echo "  make:epg          Make an EPG file"
+  echo "  decrypt:authinfo  Find a possible IPTV key"
+  echo ""
+  echo "Run '$0 COMMAND -h' for help on a specific command."
+}
+
+show_make_playlist_usage () {
+  echo "Usage: $0 make:playlist -u <user-id> -p <password> -d <device-id> --mac <mac-address>"
+  echo ""
+  echo "Options:"
+  echo "  -u | --user      User ID"
+  echo "  -p | --password  Password"
+  echo "  -d | --device    Device ID"
+  echo "  --ip             Device IP address (default: 127.0.0.1)"
+  echo "  --mac            Device MAC address"
+  echo "  --udpxy          Udpxy endpoint (default: http://127.0.0.1:4022)"
+  echo "  -o | --output    Playlist file name (default: playlist.M3U8)"
+  echo "  --curl           Specify the additional cURL arguments"
+}
+
+show_make_epg_usage () {
+  echo "Usage: $0 make:epg"
+  echo ""
+  echo "Options:"
+  echo "  --endpoint     EPG index endpoint (default: http://120.87.12.38:8083/epg/api/page/biz_59417088.json)"
+  echo "  -o | --output  EPG file name (default: epg.xml)"
+  echo "  --curl         Specify the additional cURL arguments"
+}
+
+show_decrypt_authinfo_usage () {
+  echo "Usage: $0 decrypt:authinfo <authinfo>"
+}
+
 step () { echo -e "\033[32m[-]\033[0m $1"; }
 
 fatal () { echo -e "\033[31m[!]\033[0m $1"; exit 1; }
@@ -48,6 +86,7 @@ make_epg () {
       -o | --output ) output_file="$2"; shift 2;;
       --endpoint ) endpoint="$2"; shift 2;;
       --curl ) curl_args="$2"; shift 2;;
+      -h | --help ) show_make_epg_usage; exit 0;;
       *) echo "Unknown option: $1"; exit 1;;
     esac
   done
@@ -120,6 +159,7 @@ make_playlist () {
       --udpxy) udpxy_endpoint="$2"; shift 2;;
       -o | --output) output_file="$2"; shift 2;;
       --curl) curl_args="$2"; shift 2;;
+      -h | --help ) show_make_playlist_usage; exit 0;;
       *) echo "Unknown option: $1"; exit 1;;
     esac
   done
@@ -227,6 +267,11 @@ make_playlist () {
 }
 
 decrypt_authinfo () {
+  if [[ "$1" == '-h' || "$1" == "--help" ]]; then
+    show_decrypt_authinfo_usage
+    exit 0
+  fi
+
   local authinfo="$1"
 
   if [[ -z "$authinfo" ]]; then
@@ -283,6 +328,7 @@ while [ $# -gt 0 ]; do
     make:playlist) shift 1; make_playlist "$@";;
     make:epg) shift 1; make_epg "$@";;
     decrypt:authinfo) shift 1; decrypt_authinfo "$@";;
+    -h | --help) show_usage; exit 0;;
     *) echo "Unknown command: $1"; exit 1;;
   esac
 done
