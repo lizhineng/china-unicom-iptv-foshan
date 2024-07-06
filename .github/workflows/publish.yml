@@ -69,9 +69,20 @@ jobs:
           $CARGO --version
           $CARGO build --release --locked --target ${{ matrix.target }}
 
+      - name: Setup archive
+        shell: bash
+        run: |
+          staging="decryptor-${{ env.DECRYPTOR_VERSION }}-${{ matrix.target }}"
+          mkdir -p "$staging"
+
+          cp "target/${{ matrix.target }}/release/decryptor" "$staging/"
+          tar -czf "$staging.tar.gz" "$staging"
+          echo "ASSET=$staging.tar.gz" >> $GITHUB_ENV
+
       - name: Upload the binaries
-        working-directory: ./decryptor
-        uses: actions/upload-artifact@v4
+        uses: svenstaro/upload-release-action@2.9.0
         with:
-          name: ${{ env.ASSET }}
-          path: target/${{ matrix.target }}/release/decryptor
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ env.ASSET }}
+          asset_name: ${{ env.ASSET }}
+          tag: ${{ github.ref }}
