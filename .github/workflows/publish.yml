@@ -83,6 +83,6 @@ jobs:
         uses: svenstaro/upload-release-action@2.9.0
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./decryptor/${{ env.ASSET }}
+          file: ${{ env.ASSET }}
           asset_name: ${{ env.ASSET }}
           tag: ${{ github.ref }}
