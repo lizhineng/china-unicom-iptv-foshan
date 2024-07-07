@@ -74,7 +74,7 @@ make_epg () {
       hwcode=$(echo "$response" | jq -r '.channel.params.hwcode')
 
       echo "  <channel id=\"$hwcode\">" >> $output_file
-      echo "    <display-name lang=\"zh\">$channel_title</display-name>" >> $output_file
+      echo "    <display-name lang=\"zh\"><![CDATA[$channel_title]]></display-name>" >> $output_file
       echo "    <icon src=\"$channel_icon\"/>" >> $output_file
       echo "  </channel>" >> $output_file
 
@@ -84,7 +84,7 @@ make_epg () {
         schedule_endtime=$(echo "$schedule" | jq -r '.endtime')
 
         echo "  <programme start=\"$schedule_starttime +0800\" stop=\"$schedule_endtime +0800\" channel=\"$hwcode\">" >> $output_file
-        echo "    <title lang=\"zh\">$schedule_title</title>" >> $output_file
+        echo "    <title lang=\"zh\"><![CDATA[$schedule_title]]></title>" >> $output_file
         echo "  </programme>" >> $output_file
       done < <(echo "$response" | jq -c '.schedules[]')
     fi
